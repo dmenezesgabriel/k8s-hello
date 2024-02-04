@@ -1,6 +1,8 @@
 // src/App.jsx
 import { useEffect, useState } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const App = () => {
   const [books, setBooks] = useState([]);
   const [title, setTitle] = useState("");
@@ -12,13 +14,13 @@ const App = () => {
   }, []);
 
   const fetchBooks = async () => {
-    const response = await fetch(import.meta.env.VITE_API_URL);
+    const response = await fetch(API_URL);
     const data = await response.json();
     setBooks(data);
   };
 
   const addBook = async () => {
-    await fetch(import.meta.env.API_URL, {
+    await fetch(API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
