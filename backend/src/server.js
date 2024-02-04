@@ -1,3 +1,4 @@
+// server.js
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -20,49 +21,48 @@ mongoose.connect(mongoURI, {
   useUnifiedTopology: true,
 });
 
-const bookSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  year: Number,
+const todoSchema = new mongoose.Schema({
+  task: String,
+  completed: Boolean,
 });
 
-const Book = mongoose.model("Book", bookSchema);
+const Todo = mongoose.model("Todo", todoSchema);
 
 app.on("listening", function () {
   console.log("Up and running 🚀");
 });
 
-// Create a new book
-app.post("/books", async (req, res) => {
-  const newBook = new Book(req.body);
-  await newBook.save();
-  res.json(newBook);
+// Create a new todo
+app.post("/todos", async (req, res) => {
+  const newTodo = new Todo(req.body);
+  await newTodo.save();
+  res.json(newTodo);
 });
 
-// Get all books
-app.get("/books", async (req, res) => {
-  const books = await Book.find();
-  res.json(books);
+// Get all todos
+app.get("/todos", async (req, res) => {
+  const todos = await Todo.find();
+  res.json(todos);
 });
 
-// Get a specific book
-app.get("/books/:id", async (req, res) => {
-  const book = await Book.findById(req.params.id);
-  res.json(book);
+// Get a specific todo
+app.get("/todos/:id", async (req, res) => {
+  const todo = await Todo.findById(req.params.id);
+  res.json(todo);
 });
 
-// Update a book
-app.put("/books/:id", async (req, res) => {
-  const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, {
+// Update a todo
+app.put("/todos/:id", async (req, res) => {
+  const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
-  res.json(updatedBook);
+  res.json(updatedTodo);
 });
 
-// Delete a book
-app.delete("/books/:id", async (req, res) => {
-  await Book.findByIdAndDelete(req.params.id);
-  res.json({ message: "Book deleted successfully" });
+// Delete a todo
+app.delete("/todos/:id", async (req, res) => {
+  await Todo.findByIdAndDelete(req.params.id);
+  res.json({ message: "Todo deleted successfully" });
 });
 
 app.listen(PORT, () => {
