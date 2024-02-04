@@ -28,6 +28,10 @@ const bookSchema = new mongoose.Schema({
 
 const Book = mongoose.model("Book", bookSchema);
 
+app.on("listening", function () {
+  console.log("Up and running 🚀");
+});
+
 // Create a new book
 app.post("/books", async (req, res) => {
   const newBook = new Book(req.body);

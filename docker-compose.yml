@@ -14,6 +14,9 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: express-bookstore
+    command: npm run dev
+    volumes:
+      - ./backend/src:/app/src
     ports:
       - "3000:3000"
     depends_on:
@@ -28,6 +31,9 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: react-bookstore
+    command: npm run dev --host
+    volumes:
+      - ./frontend/src:/app/src
     ports:
       - "5173:8000"
     networks:
